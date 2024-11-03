@@ -109,14 +109,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     elements.forEach((transaction) => {
       const row = document.createElement("tr");
+      if (transaction.type == "income") {
+        row.style.backgroundColor = "#90EE90";
+      } else {
+        row.style.backgroundColor = "#FF808C";
+      }
       row.innerHTML = `
-                    <td>${transaction.type}</td>
+                    <td>${transaction.type.toUpperCase()}</td>
                     <td>${transaction.amount}</td>
                     <td>${transaction.date}</td>
                     <td>${transaction.notes}</td>
                     <td>
-                        <button class="edit-button" data-id="${transaction.id}">Edit</button>
-                        <button class="delete-button" data-id="${transaction.id}">Delete</button>
+                        <button class="edit-button edit-delete ${
+                          transaction.type == "income" ? "bg-red" : "bg-green"
+                        }" data-id="${transaction.id}">Edit</button>
+                        <button class="delete-button edit-delete ${
+                          transaction.type == "income" ? "bg-red" : "bg-green"
+                        }"" data-id="${transaction.id}">Delete</button>
                     </td>
                 `;
 

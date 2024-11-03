@@ -19,7 +19,7 @@
         <label for="max-filter">Maximum Amount:</label>
         <input type="number" id="max-filter" />
       </div>
-      <div>
+      <div class="padding">
         <label for="type-filter">Type:</label>
         <select id="type-filter">
           <option value="all">All</option>
@@ -27,17 +27,19 @@
           <option value="expense">Expense</option>
         </select>
       </div>
-      <div>
+      <div class="padding">
         <label for="date-filter">Date:</label>
         <input type="date" id="date-filter" />
       </div>
-      <div>
+      <div class="padding">
         <label for="notes-filter">Notes:</label>
         <input type="text" id="notes-filter" />
       </div>
     </div>
-    <button id="filter-button" class="filter-button">Filter</button>
-    <button id="add-button" class="filter-button">Add</button>
+    <div class="flex horizontal-center padding">
+      <button id="filter-button" class="filter-button bg-green">Filter</button>
+      <button id="add-button" class="filter-button bg-green">Add</button>
+    </div>
 
     <table class="transaction-table">
       <tbody id="transaction-table-body">
@@ -68,11 +70,13 @@
       <label for="notes">Notes:</label>
       <input type="text" id="notes" required />
     </form>
-    <button id="add-form-button" class="action-button">Add</button>
-    <button id="edit-form-button" class="action-button">Edit</button>
-    <button id="cancel-button" class="action-button">Cancel</button>
+    <div class="flex horizontal-center padding">
+      <button id="add-form-button" class="action-button bg-green">Add</button>
+      <button id="edit-form-button" class="action-button bg-green">Edit</button>
+      <button id="cancel-button" class="action-button bg-green">Cancel</button>
+    </div>
 
-    <p class="budget" id="budget"></p>
+    <p class="budget text-green" id="budget"></p>
 
     <script src="./scripts/main.js"></script>
   </body>
