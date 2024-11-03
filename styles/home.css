@@ -9,6 +9,11 @@ table {
   margin: 0 auto;
 }
 
-.transaction-form {
+.transaction-form,
+.action-button {
   display: none;
+}
+
+.action-button {
+  margin: 0 auto;
 }
