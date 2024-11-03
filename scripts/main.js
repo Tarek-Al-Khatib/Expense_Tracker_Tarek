@@ -1,13 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
   //https://stackoverflow.com/questions/1011317/replace-a-value-if-null-or-undefined-in-javascript
-  const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+  let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
   const addButton = document.getElementById("add-button");
   const form_add = document.getElementById("add-form-button");
   form_add.addEventListener("click", addTransaction);
 
   const filterButton = document.getElementById("filter-button");
   const form = document.getElementById("transaction-form");
-  const editButtons = document.querySelectorAll(".edit-button");
 
   filterButton.addEventListener("click", () => {
     const type = document.getElementById("type-filter").value;
@@ -46,12 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     updateTable(filteredTransactions);
-  });
-
-  editButtons.forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      const id = e.target.getAttribute("data-id");
-    });
   });
 
   addButton.addEventListener("click", () => {
@@ -94,11 +87,32 @@ document.addEventListener("DOMContentLoaded", () => {
                     <td>${transaction.notes}</td>
                     <td>
                         <button class="edit-button" data-id="${transaction.id}">Edit</button>
-                        <button class="delete-button"data-id="${transaction.id}">Delete</button>
+                        <button class="delete-button" data-id="${transaction.id}">Delete</button>
                     </td>
                 `;
 
       table.appendChild(row);
+
+      const editButtons = document.querySelectorAll(".edit-button");
+      const deleteButtons = document.querySelectorAll(".delete-button");
+      editButtons.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const id = e.target.getAttribute("data-id");
+          const type = document.getElementById("type");
+          const amount = document.getElementById("amount");
+          const date = document.getElementById("date");
+          const notes = document.getElementById("notes");
+        });
+      });
+
+      deleteButtons.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const id = e.target.getAttribute("data-id");
+          transactions = transactions.filter((t) => t.id != id);
+          localStorage.setItem("transactions", JSON.stringify(transactions));
+          updateTable(transactions);
+        });
+      });
     });
   }
 
