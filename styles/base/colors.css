@@ -1,39 +1,23 @@
-.text-thistle {
-  color: #d5c6e0;
+.text-green {
+  color: #28a745; /* Green for positive/income */
 }
 
-.bg-thistle {
-  background-color: #d5c6e0;
+.bg-green {
+  background-color: #28a745;
 }
 
-.text-lavender-blush {
-  color: #f5e6e8;
+.text-white {
+  color: #ffffff; /* White for neutral/clean backgrounds */
 }
 
-.bg-lavender-blush {
-  background-color: #f5e6e8;
+.bg-white {
+  background-color: #ffffff;
 }
 
-.text-rose-quartz {
-  color: #aaa1c8;
+.text-red {
+  color: #dc3545; /* Red for negative/expenses */
 }
 
-.bg-rose-quartz {
-  background-color: #aaa1c8;
-}
-
-.text-mountbatten-pink {
-  color: #967aa1;
-}
-
-.bg-mountbatten-pink {
-  background-color: #967aa1;
-}
-
-.text-space-cadet {
-  color: #192a51;
-}
-
-.bg-space-cadet {
-  background-color: #192a51;
+.bg-red {
+  background-color: #dc3545;
 }
