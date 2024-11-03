@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const addButton = document.getElementById("add-button");
   const form_add = document.getElementById("add-form-button");
   form_add.addEventListener("click", addTransaction);
-  updateTable(transactions);
+
   const filterButton = document.getElementById("filter-button");
   const form = document.getElementById("transaction-form");
   const editButtons = document.querySelectorAll(".edit-button");
@@ -62,40 +62,45 @@ document.addEventListener("DOMContentLoaded", () => {
   function addTransaction() {
     const type = document.getElementById("type").value;
     const amount = document.getElementById("amount").value;
-    const date = document.getElementById("dates").value;
+    const date = document.getElementById("date").value;
     const notes = document.getElementById("notes").value;
 
-    const transaction = { type, amount, date, notes };
+    const transaction = {
+      id: Date.now(),
+      type: type,
+      amount: amount,
+      date: date,
+      notes: notes,
+    };
     transactions.push(transaction);
     form.reset();
 
     form.style.display = "none";
     form_add.style.display = "none";
+    localStorage.setItem("transactions", JSON.stringify(transactions));
     updateTable(transactions);
   }
 
-  function updateTable(rows) {
+  function updateTable(elements) {
     const table = document.getElementById("transaction-table-body");
     table.innerHTML = "";
 
-    rows.forEach((transaction) => {
+    elements.forEach((transaction) => {
       const row = document.createElement("tr");
       row.innerHTML = `
                     <td>${transaction.type}</td>
-                    <td>${transaction.amount.toFixed(2)}</td>
+                    <td>${transaction.amount}</td>
                     <td>${transaction.date}</td>
                     <td>${transaction.notes}</td>
                     <td>
-                        <button class="edit-button" data-id="${
-                          transaction.id
-                        }">Edit</button>
-                        <button class="delete-button"data-id="${
-                          transaction.id
-                        }">Delete</button>
+                        <button class="edit-button" data-id="${transaction.id}">Edit</button>
+                        <button class="delete-button"data-id="${transaction.id}">Delete</button>
                     </td>
                 `;
 
       table.appendChild(row);
     });
   }
+
+  updateTable(transactions);
 });
