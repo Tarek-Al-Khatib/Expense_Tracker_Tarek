@@ -3,9 +3,50 @@ document.addEventListener("DOMContentLoaded", () => {
   const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
   const addButton = document.getElementById("add-button");
   const form_add = document.getElementById("add-form-button");
+  form_add.addEventListener("click", addTransaction);
+  updateTable(transactions);
   const filterButton = document.getElementById("filter-button");
   const form = document.getElementById("transaction-form");
   const editButtons = document.querySelectorAll(".edit-button");
+
+  filterButton.addEventListener("click", () => {
+    const type = document.getElementById("type-filter").value;
+    const min = document.getElementById("min-filter").value;
+    const max = document.getElementById("max-filter").value;
+    const date = document.getElementById("date-filter").value;
+    const notes = document.getElementById("notes-filter").value;
+
+    let filteredTransactions = transactions;
+    if (type) {
+      if (type != "all") {
+        filteredTransactions = filteredTransactions.filter(
+          (t) => t.type === type
+        );
+      }
+    }
+    if (min) {
+      filteredTransactions = filteredTransactions.filter(
+        (t) => t.amount >= parseFloat(min)
+      );
+    }
+    if (max) {
+      filteredTransactions = filteredTransactions.filter(
+        (t) => t.amount <= parseFloat(max)
+      );
+    }
+    if (date) {
+      filteredTransactions = filteredTransactions.filter(
+        (t) => t.date === date
+      );
+    }
+    if (notes) {
+      filteredTransactions = filteredTransactions.filter((t) =>
+        t.notes.toLowerCase().includes(notes.toLowerCase())
+      );
+    }
+
+    updateTable(filteredTransactions);
+  });
 
   editButtons.forEach((btn) => {
     btn.addEventListener("click", (e) => {
@@ -30,13 +71,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.style.display = "none";
     form_add.style.display = "none";
-    updateTable();
+    updateTable(transactions);
   }
 
-  function updateTable() {
+  function updateTable(rows) {
     const table = document.getElementById("transaction-table-body");
+    table.innerHTML = "";
 
-    transactions.forEach((transaction) => {
+    rows.forEach((transaction) => {
       const row = document.createElement("tr");
       row.innerHTML = `
                     <td>${transaction.type}</td>

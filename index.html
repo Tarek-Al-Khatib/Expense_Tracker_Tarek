@@ -12,27 +12,28 @@
     <h1 class="text-center padding">Transactions</h1>
     <div class="padding flex row wrap horizontal-center filters">
       <div class="padding">
-        <label for="min">Minimum Amount:</label>
-        <input type="number" id="min" />
+        <label for="min-filter">Minimum Amount:</label>
+        <input type="number" id="min-filter" />
       </div>
       <div class="padding">
-        <label for="max">Maximum Amount:</label>
-        <input type="number" id="max" />
+        <label for="max-filter">Maximum Amount:</label>
+        <input type="number" id="max-filter" />
       </div>
       <div>
-        <label for="type">Type:</label>
-        <select id="type">
+        <label for="type-filter">Type:</label>
+        <select id="type-filter">
+          <option value="all">All</option>
           <option value="income">Income</option>
           <option value="expense">Expense</option>
         </select>
       </div>
       <div>
-        <label for="date">Date:</label>
-        <input type="date" id="date" />
+        <label for="date-filter">Date:</label>
+        <input type="date" id="date-filter" />
       </div>
       <div>
-        <label for="notes">Notes:</label>
-        <input type="text" id="notes" />
+        <label for="notes-filter">Notes:</label>
+        <input type="text" id="notes-filter" />
       </div>
     </div>
     <button id="filter-button" class="filter-button">Filter</button>
