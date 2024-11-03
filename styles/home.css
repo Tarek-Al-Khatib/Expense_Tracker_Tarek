@@ -1,0 +1,14 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.filter-button {
+  display: block;
+  margin: 0 auto;
+}
+
+.transaction-form {
+  display: none;
+}
