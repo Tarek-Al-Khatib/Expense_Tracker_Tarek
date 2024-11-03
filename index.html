@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Tracker</title>
+  </head>
+  <body>
+    <h1>Transactions</h1>
+    <input type="number" id="min" />
+    <input type="number" id="max" />
+    <select id="type">
+      <option value="income">Income</option>
+      <option value="expense">Expense</option>
+    </select>
+    <input type="date" id="date" />
+    <input type="text" id="notes" />
+    <button>Filter</button>
+
+    <table>
+      <tr>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Date</th>
+        <th>Note</th>
+        <th>Action</th>
+      </tr>
+    </table>
+
+    <p class="budget" id="budget"></p>
+  </body>
+</html>
