@@ -3,8 +3,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
   const addButton = document.getElementById("add-button");
   const form_add = document.getElementById("add-form-button");
+  const form_edit = document.getElementById("edit-form-button");
   form_add.addEventListener("click", addTransaction);
-
+  form_edit.addEventListener("click", editTransaction);
   const filterButton = document.getElementById("filter-button");
   const form = document.getElementById("transaction-form");
 
@@ -50,8 +51,24 @@ document.addEventListener("DOMContentLoaded", () => {
   addButton.addEventListener("click", () => {
     form.style.display = "flex";
     form_add.style.display = "block";
+    form.reset();
   });
 
+  function editTransaction() {
+    const id = document.getElementById("transaction-id").value;
+    console.log(id);
+    const transaction = transactions.find((t) => t.id == id);
+    transaction.type = document.getElementById("type").value;
+    transaction.amount = document.getElementById("amount").value;
+    transaction.date = document.getElementById("date").value;
+    transaction.notes = document.getElementById("notes").value;
+
+    localStorage.setItem("transactions", JSON.stringify(transactions));
+    updateTable(transactions);
+    form.style.display = "none";
+    form_edit.style.display = "none";
+    form.reset();
+  }
   function addTransaction() {
     const type = document.getElementById("type").value;
     const amount = document.getElementById("amount").value;
@@ -98,10 +115,15 @@ document.addEventListener("DOMContentLoaded", () => {
       editButtons.forEach((btn) => {
         btn.addEventListener("click", (e) => {
           const id = e.target.getAttribute("data-id");
-          const type = document.getElementById("type");
-          const amount = document.getElementById("amount");
-          const date = document.getElementById("date");
-          const notes = document.getElementById("notes");
+          const transaction = transactions.find((t) => t.id == id);
+          console.log(transaction);
+          document.getElementById("transaction-id").value = transaction.id;
+          document.getElementById("type").value = transaction.type;
+          document.getElementById("amount").value = transaction.amount;
+          document.getElementById("date").value = transaction.date;
+          document.getElementById("notes").value = transaction.notes;
+          form.style.display = "flex";
+          form_edit.style.display = "block";
         });
       });
 
