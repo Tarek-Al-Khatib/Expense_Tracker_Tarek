@@ -4,10 +4,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const addButton = document.getElementById("add-button");
   const form_add = document.getElementById("add-form-button");
   const form_edit = document.getElementById("edit-form-button");
+  const form_cancel = document.getElementById("cancel-button");
   form_add.addEventListener("click", addTransaction);
   form_edit.addEventListener("click", editTransaction);
   const filterButton = document.getElementById("filter-button");
   const form = document.getElementById("transaction-form");
+
+  form_cancel.addEventListener("click", () => {
+    form_add.style.display = "none";
+    form_edit.style.display = "none";
+    form.style.display = "none";
+    form.reset();
+    form_cancel.style.display = "none";
+  });
 
   filterButton.addEventListener("click", () => {
     const type = document.getElementById("type-filter").value;
@@ -48,12 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
     updateTable(filteredTransactions);
   });
 
-  addButton.addEventListener("click", () => {
-    form.style.display = "flex";
-    form_add.style.display = "block";
-    form.reset();
-  });
-
   function editTransaction() {
     const id = document.getElementById("transaction-id").value;
     console.log(id);
@@ -67,8 +70,17 @@ document.addEventListener("DOMContentLoaded", () => {
     updateTable(transactions);
     form.style.display = "none";
     form_edit.style.display = "none";
+    form_cancel.style.display = "none";
     form.reset();
   }
+
+  addButton.addEventListener("click", () => {
+    form.style.display = "flex";
+    form_add.style.display = "block";
+    form_edit.style.display = "none";
+    form_cancel.style.display = "block";
+    form.reset();
+  });
   function addTransaction() {
     const type = document.getElementById("type").value;
     const amount = document.getElementById("amount").value;
@@ -124,6 +136,8 @@ document.addEventListener("DOMContentLoaded", () => {
           document.getElementById("notes").value = transaction.notes;
           form.style.display = "flex";
           form_edit.style.display = "block";
+          form_cancel.style.display = "block";
+          form_add.style.display = "none";
         });
       });
 
@@ -136,7 +150,24 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
     });
+
+    calculateBudget();
   }
 
+  function calculateBudget() {
+    let expenses = 0;
+    let income = 0;
+
+    transactions.forEach((t) => {
+      if (t.type == "expense") {
+        expenses += parseFloat(t.amount);
+      } else {
+        income += parseFloat(t.amount);
+      }
+    });
+    const budget = income - expenses;
+    const budgetP = document.getElementById("budget");
+    budgetP.innerText = `Your Total Budget is: ${budget}`;
+  }
   updateTable(transactions);
 });
