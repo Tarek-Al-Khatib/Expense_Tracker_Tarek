@@ -26,4 +26,10 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .catch((error) => console.error("Error:", error));
     });
+
+  const takeme = document.getElementById("take-me");
+
+  takeme.addEventListener("click", () => {
+    window.location.href = "signup.html";
+  });
 });
