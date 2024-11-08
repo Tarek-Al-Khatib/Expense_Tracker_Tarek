@@ -203,14 +203,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       });
     });
-    calculateBudget();
+    calculateBudget(elements);
   }
 
-  function calculateBudget() {
+  function calculateBudget(elements) {
     let expenses = 0;
     let income = 0;
 
-    transactions.forEach((t) => {
+    elements.forEach((t) => {
       if (t.type == "expense") {
         expenses += parseFloat(t.amount);
       } else {
