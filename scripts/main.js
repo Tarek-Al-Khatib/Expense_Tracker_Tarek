@@ -59,7 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function editTransaction() {
     const id = document.getElementById("transaction-id").value;
-
     const type = document.getElementById("type").value;
     const amount = document.getElementById("amount").value;
     const date = document.getElementById("date").value;
@@ -190,12 +189,20 @@ document.addEventListener("DOMContentLoaded", () => {
           deleteButtons.forEach((btn) => {
             btn.addEventListener("click", (e) => {
               const id = e.target.getAttribute("data-id");
-              transactions = transactions.filter((t) => t.id != id);
-              localStorage.setItem(
-                "transactions",
-                JSON.stringify(transactions)
-              );
-              updateTable(transactions);
+              axios
+                .post(
+                  "http://localhost:8080/expense-tracker/delete.php",
+                  new URLSearchParams({ id: id }),
+                  {
+                    headers: {
+                      "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                  }
+                )
+                .then((response) => {
+                  console.log(response);
+                  updateTable(transactions);
+                });
             });
           });
         });
