@@ -10,6 +10,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const filterButton = document.getElementById("filter-button");
   const form = document.getElementById("transaction-form");
 
+  const userId = localStorage.getItem("userid");
+  axios
+    .post(
+      "http://localhost:8080/expense-tracker/transactions/get.php",
+      new URLSearchParams({ id: userId }),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      }
+    )
+    .then((response) => {
+      transactions = response.data;
+      updateTable(transactions);
+    });
+
   form_cancel.addEventListener("click", () => {
     form_add.style.display = "none";
     form_edit.style.display = "none";
@@ -67,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     axios
       .post(
-        "http://localhost:8080/expense-tracker/edit.php",
+        "http://localhost:8080/expense-tracker/transactions/edit.php",
         new URLSearchParams({
           id: id,
           type: type,
@@ -113,12 +129,13 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log(JSON.stringify(transaction));
     axios
       .post(
-        "http://localhost:8080/expense-tracker/add.php",
+        "http://localhost:8080/expense-tracker/transactions/add.php",
         new URLSearchParams({
           type: transaction.type,
           amount: transaction.amount,
           date: transaction.date,
           notes: transaction.notes,
+          userid: userId,
         }),
         {
           headers: {
@@ -188,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
           const id = e.target.getAttribute("data-id");
           axios
             .post(
-              "http://localhost:8080/expense-tracker/delete.php",
+              "http://localhost:8080/expense-tracker/transactions/delete.php",
               new URLSearchParams({ id: id }),
               {
                 headers: {
@@ -221,10 +238,4 @@ document.addEventListener("DOMContentLoaded", () => {
     const budgetP = document.getElementById("budget");
     budgetP.innerText = `Your Total Budget is: ${budget}`;
   }
-  axios
-    .post("http://localhost:8080/expense-tracker/get.php")
-    .then((response) => {
-      transactions = response.data;
-      updateTable(transactions);
-    });
 });
