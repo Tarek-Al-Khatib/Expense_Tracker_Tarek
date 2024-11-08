@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const notes = document.getElementById("notes-filter").value;
 
     let filteredTransactions = transactions;
+    console.log(filteredTransactions);
     if (type) {
       if (type != "all") {
         filteredTransactions = filteredTransactions.filter(
@@ -136,21 +137,17 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function updateTable(elements) {
-    axios
-      .post("http://localhost:8080/expense-tracker/get.php")
-      .then((response) => {
-        transactions = response.data;
-        const table = document.getElementById("transaction-table-body");
-        table.innerHTML = "";
+    const table = document.getElementById("transaction-table-body");
+    table.innerHTML = "";
 
-        transactions.forEach((transaction) => {
-          const row = document.createElement("tr");
-          if (transaction.type == "income") {
-            row.style.backgroundColor = "#90EE90";
-          } else {
-            row.style.backgroundColor = "#FF808C";
-          }
-          row.innerHTML = `
+    elements.forEach((transaction) => {
+      const row = document.createElement("tr");
+      if (transaction.type == "income") {
+        row.style.backgroundColor = "#90EE90";
+      } else {
+        row.style.backgroundColor = "#FF808C";
+      }
+      row.innerHTML = `
                     <td>${transaction.type.toUpperCase()}</td>
                     <td>${transaction.amount}</td>
                     <td>${transaction.date}</td>
@@ -165,49 +162,48 @@ document.addEventListener("DOMContentLoaded", () => {
                     </td>
                 `;
 
-          table.appendChild(row);
+      table.appendChild(row);
 
-          const editButtons = document.querySelectorAll(".edit-button");
-          const deleteButtons = document.querySelectorAll(".delete-button");
-          editButtons.forEach((btn) => {
-            btn.addEventListener("click", (e) => {
-              const id = e.target.getAttribute("data-id");
-              const transaction = transactions.find((t) => t.id == id);
-              console.log(transaction);
-              document.getElementById("transaction-id").value = transaction.id;
-              document.getElementById("type").value = transaction.type;
-              document.getElementById("amount").value = transaction.amount;
-              document.getElementById("date").value = transaction.date;
-              document.getElementById("notes").value = transaction.notes;
-              form.style.display = "flex";
-              form_edit.style.display = "block";
-              form_cancel.style.display = "block";
-              form_add.style.display = "none";
-            });
-          });
-
-          deleteButtons.forEach((btn) => {
-            btn.addEventListener("click", (e) => {
-              const id = e.target.getAttribute("data-id");
-              axios
-                .post(
-                  "http://localhost:8080/expense-tracker/delete.php",
-                  new URLSearchParams({ id: id }),
-                  {
-                    headers: {
-                      "Content-Type": "application/x-www-form-urlencoded",
-                    },
-                  }
-                )
-                .then((response) => {
-                  console.log(response);
-                  updateTable(transactions);
-                });
-            });
-          });
+      const editButtons = document.querySelectorAll(".edit-button");
+      const deleteButtons = document.querySelectorAll(".delete-button");
+      editButtons.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const id = e.target.getAttribute("data-id");
+          const transaction = transactions.find((t) => t.id == id);
+          console.log(transaction);
+          document.getElementById("transaction-id").value = transaction.id;
+          document.getElementById("type").value = transaction.type;
+          document.getElementById("amount").value = transaction.amount;
+          document.getElementById("date").value = transaction.date;
+          document.getElementById("notes").value = transaction.notes;
+          form.style.display = "flex";
+          form_edit.style.display = "block";
+          form_cancel.style.display = "block";
+          form_add.style.display = "none";
         });
-        calculateBudget();
       });
+
+      deleteButtons.forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          const id = e.target.getAttribute("data-id");
+          axios
+            .post(
+              "http://localhost:8080/expense-tracker/delete.php",
+              new URLSearchParams({ id: id }),
+              {
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                },
+              }
+            )
+            .then((response) => {
+              console.log(response);
+              updateTable(transactions);
+            });
+        });
+      });
+    });
+    calculateBudget();
   }
 
   function calculateBudget() {
@@ -225,5 +221,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const budgetP = document.getElementById("budget");
     budgetP.innerText = `Your Total Budget is: ${budget}`;
   }
-  updateTable(transactions);
+  axios
+    .post("http://localhost:8080/expense-tracker/get.php")
+    .then((response) => {
+      transactions = response.data;
+      updateTable(transactions);
+    });
 });
